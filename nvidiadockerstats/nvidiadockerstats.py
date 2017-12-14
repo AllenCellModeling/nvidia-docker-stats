@@ -86,10 +86,7 @@ def main():
     colnames = {'utilization.gpu':'used_gpu'}
     unitstats = {shortunitids[gpu_uuid]:renamekeys(stats,colnames) for gpu_uuid,stats in unitstats.items()}
     unitprocstats = {(pid,shortunitids[gpu_uuid]):stats for (pid,gpu_uuid),stats in unitprocstats.items()}
-
-    #reassign column names to valid python variable names for formatting
     
-
     #display fmt data
     basedisplaycols = collections.OrderedDict([('Container',12),
                                                ('Image',18)])
@@ -115,14 +112,14 @@ def main():
         # https://www.projectatomic.io/blog/2016/01/understanding-docker-top-and-ps/
         pids = command(['docker','top',container,'-eo','pid']).split('\n')[1:-1]#obviously could be a bit brittle
         
-        containerunitstats = {(proc,unit):stat for (proc,unit), stat in unitprocstats.items() if proc in pids}
+        containerunitstatslist = [((proc,unit),stats) for (proc,unit),stats in sorted(unitprocstats.items()) if proc in pids]
+        containerunitstats = collections.OrderedDict(containerunitstatslist)
+        
         if containerunitstats:
             someunitsactive = True
             basedisplaystr = basedisplayfmt.format(Container=container,**dockerinfo)
             print(basedisplaystr)
             for (pid,gpu_uuid),stats in containerunitstats.items():
-                #print(unitstats[gpu_uuid])
-                #print(optdisplayfmt)
                 print(optdisplayfmt.rjust(99).format(pid=pid,gpu_uuid=gpu_uuid,**stats,**unitstats[gpu_uuid]))
     if not someunitsactive:
         print("\n\t\t no gpu units being used by docker containers ")
