@@ -1,6 +1,10 @@
 ## About
 A Python 3 based command line tool for determining a docker container associated processes gpu utilization by joining information across 'nvidia-smi *' and 'docker *' commands.
 
+## Command Output
+
+![Sample](image/sample.png)
+
 ## Usage
 
 ### Case 1
