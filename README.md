@@ -18,7 +18,9 @@ Clone anywhere on network home, link, and run directly:
 
 ```
 $ git clone https://github.com/cdw/nvidia-docker-stats.git
+$ mkdir -p ~/bin/ ~/.local/bin
 $ ln nvidia-docker-stats/nvidiadockerstats/nvidiadockerstats.py ~/bin/nvidiadockerstats
+$ ln nvidia-docker-stats/nvidiadockerstats/nvidiadockerstats.py ~/.local/bin/nvidiadockerstats
 $ nvidiadockerstats
 ```
 
